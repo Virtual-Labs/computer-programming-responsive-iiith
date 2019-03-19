@@ -12,48 +12,48 @@ window.view = {
 	nextSiblingElement: new Object(), // Object of next sibling.
 	previousSiblingElement: new Object(), // Object of previous sibling.
 	// below strings show explanation and output during of code execution.
-	explanationCBR1: 'This program demonstrates the use of pointers in call-by-reference method.',
+	explanationCBR1: 'This program demonstrates the call-by-value method and why it is not useful for swapping.',
 	explanationCBR2: 'Variables A and B are declared as integer types and assigned values 5 and 9 respectively.',
 	explanationCBR3: 'Value stored in variable A is 5 which is displayed in the output.',
 	explanationCBR4: 'Value stored in variable B is 9 which is displayed in the output.',
-	explanationCBR5: 'The function \'swap\' is called and addresses of A and B are passed as arguments.',
-	explanationCBR6: 'Function call. Local integer type pointer variables Pa and Pb get assigned the address of A and B respectively.',
-	explanationCBR7: 'A local integer type variable \'temp\' is declared and the value at address in Pa is assigned to it i.e. A\'s value is stored in temp.',
-	explanationCBR8: 'Value at address in Pa is changed to the value at address in Pb i.e. B\'s value is now stored in A.',
-	explanationCBR9: 'Value at addrss in Pb is changed to the value of temp i.e. temp is now stored in B.',
+	explanationCBR5: 'The function \'swap\' is called and values of A and B are passed as arguments.',
+	explanationCBR6: 'Function call. Local integer type  variables Pa and Pb get assigned the values of A and B respectively.',
+	explanationCBR7: 'A local integer type variable \'temp\' is declared and the value in Pa is assigned to it i.e. Pa\'s value is stored in temp.',
+	explanationCBR8: 'Value in Pa is changed to the value in Pb i.e. Pa\'s value is now stored in Pb.',
+	explanationCBR9: 'Value in Pb is changed to the value of temp i.e. temp is now stored in Pb.',
 	explanationCBR10: 'Function returns.',
-	explanationCBR11: 'The New Value stored in variable A is 9 which is displayed in the output.',
-	explanationCBR12: 'The New Value stored in variable B is 5 which is displayed in the output.',
+	explanationCBR11: 'The same old value in variable A is 5 is displayed in the output.',
+	explanationCBR12: 'The same old value in variable B is 9 is displayed in the output.',
 	explanationCBR13: 'Program Execution Complete',
 	outputCBR1: 'Value of A is 5',
 	outputCBR2: 'Value of B is 9',
-	outputCBR3: 'Value of A after swapping is 9',
-	outputCBR4: 'Value of B after swapping is 5',
+	outputCBR3: 'Value of A after swapping is 5',
+	outputCBR4: 'Value of B after swapping is 9',
 	// addClickEvent: add EventListener to other methods.
 	addClickEvent: function (id, method) {
 		var element = document.getElementById(id);
 		element.addEventListener('click', method, false);
 	},
 	// activateEvents: calls addClickEvent method to add EventListener to other methods.
-	activateEvents: function() {
-		this.addClickEvent('startBtnId', function() { view.startExecution() });
-		this.addClickEvent('nextBtnId', function() { view.continueExecution() });
-		this.addClickEvent('backBtnId', function() { view.reverseExecution() });
+	activateEvents: function () {
+		this.addClickEvent('startBtnId', function () { view.startExecution() });
+		this.addClickEvent('nextBtnId', function () { view.continueExecution() });
+		this.addClickEvent('backBtnId', function () { view.reverseExecution() });
 	},
 	// setString: set given string to a element.
 	setString: function (id, string) {
 		document.getElementById(id).innerHTML = string;
 	},
 	// enableElement: makes element enable.
-	enableElement: function(Id) {
+	enableElement: function (Id) {
 		document.getElementById(Id).disabled = false;
 	},
 	// disableElement: makes element disable.
-	disableElement: function(Id) {
+	disableElement: function (Id) {
 		document.getElementById(Id).disabled = true;
 	},
 	// changeClass: changes class name of a element.
-	changeClass: function(id, className) {
+	changeClass: function (id, className) {
 		document.getElementById(id).className = className;
 	},
 	// applyColorClass: adds new color class to a element.
@@ -90,7 +90,7 @@ window.view = {
 	},
 	// getPsreviousSiblingElement: return psrevious sibling element.
 	getPsreviousSiblingElement: function (element) {
-		var previousSiblingElement = element.previousSibling ;
+		var previousSiblingElement = element.previousSibling;
 		previousSiblingElement = previousSiblingElement.previousSibling;
 		return previousSiblingElement;
 	},
@@ -127,12 +127,12 @@ window.view = {
 		this.setInnerHtml('40byte1', '0');
 		this.setInnerHtml('40byte2', '0');
 		this.setInnerHtml('40byte3', '0');
-		this.setInnerHtml('40byte4', '60');
+		this.setInnerHtml('40byte4', '5');
 		this.setInnerHtml('40variable', 'Pa');
 		this.setInnerHtml('36byte1', '0');
 		this.setInnerHtml('36byte2', '0');
 		this.setInnerHtml('36byte3', '0');
-		this.setInnerHtml('36byte4', '56');
+		this.setInnerHtml('36byte4', '9');
 		this.setInnerHtml('36variable', 'Pb');
 	},
 	// setValueAtAddress32: set value in memory map where address is 32.
@@ -142,6 +142,12 @@ window.view = {
 		this.setInnerHtml('32byte3', '0');
 		this.setInnerHtml('32byte4', '5');
 		this.setInnerHtml('32variable', 'temp');
+	},
+	changeValueAtAddress40: function () {
+		this.setInnerHtml('40byte4', '9');
+	},
+	changeValueAtAddress36: function () {
+		this.setInnerHtml('36byte4', '5');
 	},
 	// eraseValueAtAddress60And56: erase value from memory map where address is 60 and 56.
 	eraseValueAtAddress60And56: function () {
@@ -179,34 +185,12 @@ window.view = {
 	},
 	// swapValueBetweenAddress60And56: swaps value in memory map between address 60 and 56.
 	swapValueBetweenAddress60And56: function () {
-		if (this.nextSiblingElement.id === 'codeContentCBR14') {
-			this.setInnerHtml('60byte4', '9');
-			this.setInnerHtml('56byte4', '5');
-		}
-		else if (this.previousSiblingElement.id === 'codeContentCBR13') {
+		if (this.nextSiblingElement.id === 'codeContentCBR6') {
 			this.setInnerHtml('60byte4', '5');
 			this.setInnerHtml('56byte4', '9');
 		}
-	},
-	// Copies content of address 60 into 50 , reverse variable indicates whether action has to be reversed
-	copyValueOf60into56: function (reverse) {
-		if (reverse == 0 && this.nextSiblingElement.id === 'codeContentCBR13') {
-			this.setInnerHtml('60byte4', '9');
-			this.setInnerHtml('56byte4', '9');
-		}
-		if (reverse == 1 && this.previousSiblingElement.id === 'codeContentCBR12') {
+		else if (this.previousSiblingElement.id === 'codeContentCBR5') {
 			this.setInnerHtml('60byte4', '5');
-			this.setInnerHtml('56byte4', '9');
-		}
-	},
-	// Copies content of address 60 into 50 , reverse variable indicates whether action has to be reversed
-	copyValueOf32into56: function (reverse) {
-		if (reverse == 0 && this.nextSiblingElement.id === 'codeContentCBR14') {
-			this.setInnerHtml('32byte4', '5');
-			this.setInnerHtml('56byte4', '5');
-		}
-		if (reverse == 1 && this.previousSiblingElement.id === 'codeContentCBR13') {
-			this.setInnerHtml('32byte4', '5');
 			this.setInnerHtml('56byte4', '9');
 		}
 	},
@@ -295,35 +279,37 @@ window.view = {
 		else if (this.nextSiblingElement.id === 'codeContentCBR6') {
 			this.codeExecutionWithColour();
 			this.eraseStringFromElement('outputText', 'explanationText', this.explanationCBR5);
+			this.swapValueBetweenAddress60And56();
 		}
 		else if (this.nextSiblingElement.id === 'codeContentCBR7') {
 			this.codeExecutionWithColourAndId('codeContentCBR11');
 			this.setString('explanationText', this.explanationCBR6);
 			this.setValueAtAddress40And36();
 		}
-		else if (this.nextSiblingElement.id === 'codeContentCBR12')	{
+		else if (this.nextSiblingElement.id === 'codeContentCBR12') {
 			this.codeExecutionWithColour();
 			this.setString('explanationText', this.explanationCBR7);
 			this.setValueAtAddress32();
 		}
 		else if (this.nextSiblingElement.id === 'codeContentCBR13') {
 			this.codeExecutionWithColour();
-			this.copyValueOf60into56(0);
 			this.setString('explanationText', this.explanationCBR8);
+			this.changeValueAtAddress40();
 		}
-		else if (this.nextSiblingElement.id === 'codeContentCBR14')	{
+		else if (this.nextSiblingElement.id === 'codeContentCBR14') {
 			this.codeExecutionWithColour();
-			this.copyValueOf32into56(0);	
 			this.setString('explanationText', this.explanationCBR9);
+			this.changeValueAtAddress36();
+
 		}
-		else if (this.nextSiblingElement.id === 'codeContentCBR15')	{
+		else if (this.nextSiblingElement.id === 'codeContentCBR15') {
 			this.codeExecutionWithColour();
 			this.setString('explanationText', this.explanationCBR10);
 			this.eraseValueAtAddress36And40();
 			this.eraseValueAtAddress32();
 		}
-	 	else if (this.nextSiblingElement.id === 'codeContentCBR16')	{
-	 		this.codeExecutionWithColourAndId('codeContentCBR7');
+		else if (this.nextSiblingElement.id === 'codeContentCBR16') {
+			this.codeExecutionWithColourAndId('codeContentCBR7');
 			this.setStringInElement(this.outputCBR3, this.explanationCBR11);
 		}
 		else if (this.nextSiblingElement.id === 'codeContentCBR8') {
@@ -361,8 +347,9 @@ window.view = {
 		else if (this.previousSiblingElement.id === 'codeContentCBR5') {
 			this.reverseCodeExecutionWithColour();
 			this.setStringInElement(this.outputCBR2, this.explanationCBR4);
+			this.swapValueBetweenAddress60And56();
 		}
-		else if (this.previousSiblingElement.id === 'codeContentCBR10')	{
+		else if (this.previousSiblingElement.id === 'codeContentCBR10') {
 			this.codeExecutionWithColourAndId('codeContentCBR6');
 			this.setString('explanationText', this.explanationCBR5);
 			this.eraseValueAtAddress36And40();
@@ -374,12 +361,10 @@ window.view = {
 		}
 		else if (this.previousSiblingElement.id === 'codeContentCBR12') {
 			this.reverseCodeExecutionWithColour();
-			this.copyValueOf60into56(1);
 			this.setString('explanationText', this.explanationCBR7);
 		}
 		else if (this.previousSiblingElement.id === 'codeContentCBR13') {
 			this.reverseCodeExecutionWithColour();
-			this.copyValueOf32into56(1);	
 			this.setString('explanationText', this.explanationCBR8);
 		}
 		else if (this.previousSiblingElement.id === 'codeContentCBR14') {
